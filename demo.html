@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="./bootstrap/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+
+    />
+    <script
+      src="./bootstrap/dist/js/bootstrap.min.js"
+   
+    ></script>
+    <script src="./progressbar.js/dist/progressbar.min.js"></script>
+    <title>Document</title>
+  </head>
+  <style>
+    body {
+      background-color: aliceblue;
+    }
+    .cardItem {
+      height: 650px;
+      width: 750px;
+    }
+    .main {
+      position: relative;
+    }
+    .left,
+    .right {
+      position: sticky;
+      top: 30px;
+      width: 350px;
+      height: 250px;
+    }
+    .navbar {
+      height: 70px;
+    }
+    .circle {
+      width: 50px;
+      height: 50px;
+      display: inline-block;
+    }
+    .circle {
+      width: 50px; /* kích thước vòng tròn */
+      height: 50px;
+      position: relative;
+    }
+
+    .circle > svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .circle > span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .finish {
+      width: 100%;
+    }
+  </style>
+  <body>
+    <div class="card navbar">
+      <span class="progress" id="progress">123</span>
+    </div>
+    <div class="d-flex justify-content-center gap-2 mt-2">
+      <div
+        class="card left d-flex flex-column justify-content-start align-items-start gap-3"
+      >
+        <div
+          class="d-flex justify-content-between align-items-center cardItem1-finish finish"
+        >
+          <span><a href="" data-target="cardItem1">bảng 1</a></span>
+          <div class="circle" id="progress-circle1"></div>
+        </div>
+        <div
+          class="d-flex justify-content-between align-items-center cardItem2-finish finish"
+        >
+          <span><a href="" data-target="cardItem2">bảng 2</a></span>
+          <div class="circle" id="progress-circle2"></div>
+        </div>
+        <div
+          class="d-flex justify-content-between align-items-center cardItem3-finish finish"
+        >
+          <span><a href="" data-target="cardItem3">bảng 3</a></span>
+          <div class="circle" id="progress-circle3"></div>
+        </div>
+      </div>
+      <div class="main">
+        <div class="card cardItem cardItem1 " id="cardItem1"  data-target="cardItem1">
+          <form action="" id="myForm" class="d-flex justify-content-between">
+            <div class="">
+              <label for="" class="form-label">1</label>
+              <input type="text" name="input1" class="form-control" />
+            </div>
+            <div class="">
+              <label for="" class="form-label">2</label>
+              <input type="text" name="input2" class="form-control" />
+            </div>
+            <div class="">
+              <label for="" class="form-label">3</label>
+              <input type="text" name="input3" class="form-control" />
+            </div>
+          </form>
+          <table>
+            <thead>
+              <th>No.</th>
+              <th>Email</th>
+              <th>Name</th>
+              <th>Address</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>123456</td>
+                <td>123456</td>
+                <td>123456</td>
+                <td>123456</td>
+              </tr>
+              <tr>
+                <td>123456</td>
+                <td>123456</td>
+                <td>123456</td>
+                <td>123456</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card cardItem cardItem2 mt-2" id="cardItem2" data-target="cardItem2">gfhfd</div>
+        <div class="card cardItem cardItem3 mt-2 " id="cardItem3"  data-target="cardItem3">gfhfd</div>
+      </div>
+      <div class="card right">
+        <div class="bg-primary header text-light"  style="height: 40px">
+          <span>Hướng dẫn</span>
+        </div>
+        <div class="content"></div>
+      </div>
+    </div>
+    <script>
+      var bar1 = new ProgressBar.Circle("#progress-circle1", {
+        strokeWidth: 8,
+        trailWidth: 3,
+        easing: "easeInOut",
+        duration: 1000,
+        text: {
+          autoStyleContainer: false,
+        },
+        from: { width: 8 },
+        to: { width: 8 },
+        step: function (state, circle) {
+          let value = circle.value(); // 0 -> 1
+          let percent = Math.round(value * 100); // đổi sang %
+
+          // chọn màu theo mốc %
+          let color =
+            percent < 50 ? "#ff0000" : percent < 100 ? "#d6a204" : "#209c02";
+
+          circle.path.setAttribute("stroke", color);
+          circle.path.setAttribute("stroke-width", state.width);
+
+          // set text ở giữa vòng tròn
+          circle.setText(percent + "%");
+        },
+      });
+
+      var bar2 = new ProgressBar.Circle("#progress-circle2", {
+        color: "#4caf50",
+        strokeWidth: 8,
+        trailWidth: 3,
+        easing: "easeInOut",
+        duration: 500,
+        text: { autoStyleContainer: false },
+        from: { color: "#ff0000", width: 3 },
+        to: { color: "#4caf50", width: 8 },
+        step: function (state, circle) {
+          circle.path.setAttribute("stroke", state.color);
+          circle.path.setAttribute("stroke-width", state.width);
+        },
+      });
+      var bar3 = new ProgressBar.Circle("#progress-circle3", {
+        color: "#4caf50",
+        strokeWidth: 8,
+        trailWidth: 3,
+        easing: "easeInOut",
+        duration: 500,
+        text: { autoStyleContainer: false },
+        from: { color: "#ff0000", width: 3 },
+        to: { color: "#4caf50", width: 8 },
+        step: function (state, circle) {
+          circle.path.setAttribute("stroke", state.color);
+          circle.path.setAttribute("stroke-width", state.width);
+        },
+      });
+
+      function calculateProgress1() {
+        const input = document.querySelectorAll("#myForm input");
+        let filled = 0;
+        input.forEach((item) => {
+          if (item.value.trim() !== "") filled++;
+        });
+        const percent = Math.round((filled / input.length) * 100);
+        bar1.animate(percent / 100);
+        document.querySelectorAll("#myForm input").forEach((input) => {
+          input.addEventListener("input", calculateProgress1);
+        });
+      }
+      calculateProgress1();
+      const tutorial = {
+        input1: "click and fill input 1",
+        input2: "click and fill input 2",
+        input3: "click and fill input 3",
+      };
+      document.querySelectorAll("#myForm input").forEach((input, index) => {
+        input.addEventListener("click", function () {
+          const key = input.name; // Lấy key từ name của input
+          document.querySelector(".content").innerHTML = tutorial[key];
+        });
+      });
+    //   function
+    document.querySelectorAll('.left a').forEach(item=>{
+        item.addEventListener('click',function(e){
+            e.preventDefault();
+            const cardId=this.getAttribute('data-target');
+            document.getElementById(cardId).scrollIntoView({
+                behavior:'smooth',
+                block:'start'
+            })
+        })
+    })
+    </script>
+  </body>
+</html>
