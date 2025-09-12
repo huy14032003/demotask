@@ -5,282 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <style>
-    .container {
-      border: 1px solid green;
-      width: 350px;
-      height: 400px;
-      overflow: auto;
-    }
-    th,
-    td {
-      border: 1px solid#cacaca76;
-    }
-    table {
-      border-collapse: collapse;
-      text-align: center;
-      vertical-align: middle;
-    }
-    table thead th {
-      position: sticky;
-      z-index: 1;
-      top: 0;
-      background-color: aqua;
-    }
-    #pagination button {
-      margin: 15px;
-      border: none;
-      background: none;
-      cursor: pointer;
-    }
-    #pagination .active {
-      font-weight: bold;
-      font-size: 15px;
-    }
-    #pagination button:hover {
-      background-color: orange;
-    }
-  </style>
   <body>
-    <div class="container">
-      <table id="myTable">
-        <thead></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div id="pagination"></div>
-
     <script>
-      let currentPage = 1;
-      const rowsPerPage = 5;
-      let role = JSON.parse(localStorage.getItem("role"));
-      
-      function renderThead() {
-        if (role === "admin") {
-          document.querySelector("thead").innerHTML = `
-         <th>a</th>
-          <th>b</th>
-          <th>n</th>
-          <th>x</th>
-          <th>y</th>
-
-  
-        `;
-        } else {
-          document.querySelector("thead").innerHTML = `
-         <th>1</th>
-          <th>2</th>
-          <th>3</th>
-          <th>4</th>
-          <th>5</th>
-
-  
-        `;
-        }
+      const state = {
+        state1: 0,
+        state2: 0,
+        state3: 0,
+      };
+      const render={
+        state1: renderState1,
+        state2: renderState2,
+        state3: renderState3
       }
-      
-      function renderTbody() {
-        if (role === "admin") {
-          document.querySelector("tbody").innerHTML = `
- <tr>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-          </tr>
-          <tr>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-          </tr>
-          <tr>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-          </tr>
-          <tr>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-          </tr>
-          <tr>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-          </tr>
-          <tr>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-          </tr>
-          <tr>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-          </tr>
-          <tr>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-          </tr>
-          <tr>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-          </tr>
-          <tr>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-          </tr>
-          <tr>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-          </tr>
-          <tr>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-          </tr>
-          <tr>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-          </tr>
-          <tr>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu 0000</td>
-          </tr>
-          <tr>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu 0000</td>
-          </tr>
-          <tr>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu 0000</td>
-          </tr>
-          <tr>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu em</td>
-            <td>anh yêu 0000</td>
-          </tr>
-
-        `;
-        }
-        else
-        { 
-          document.querySelector("tbody").innerHTML = 
-          `
-             <tr>
-            <td>nodata</td>
-            <td>nodata</td>
-            <td>nodata</td>
-            <td>nodata</td>
-            <td><button>confirm</button></td>
-          </tr>
-          `;
-          document.querySelector('button').onclick=function(){
-            alert('ok')
-          }
-        }
+      // Render function theo quy ước: renderState1, renderState2, ...
+      function renderState1(val) {
+        console.log("Render State1:", val);
       }
-
-      function renderTable() {
-        renderThead();
-        renderTbody();
-        const table = document.getElementById("myTable");
-        const rows = table.querySelectorAll("tbody tr");
-        const totalRows = rows.length;
-        const totalPages = Math.ceil(totalRows / rowsPerPage);
-
-        // Ẩn tất cả dòng
-        rows.forEach((row, index) => {
-          row.style.display = "none";
-          if (
-            index >= (currentPage - 1) * rowsPerPage &&
-            index < currentPage * rowsPerPage
-          ) {
-            row.style.display = "";
-          }
-        });
-        
-        renderPagination(totalPages);
+      function renderState2(val) {
+        console.log("Render State2:", val);
       }
-      function renderPagination(totalPages) {
-        const pagination = document.getElementById("pagination");
-        pagination.innerHTML = "";
-
-        function addButton(label, page, active = false, disabled = false) {
-          const btn = document.createElement("button");
-          btn.textContent = label;
-          if (active) btn.classList.add("active");
-          if (disabled) btn.disabled = true;
-          if (!disabled) {
-            btn.addEventListener("click", () => {
-              currentPage = page;
-              renderTable();
-            });
-          }
-          pagination.appendChild(btn);
-        }
-
-        addButton("«", currentPage - 1, false, currentPage === 1);
-
-        if (currentPage > 2) addButton(1, 1);
-        if (currentPage >= 3)
-          pagination.appendChild(document.createTextNode("..."));
-
-        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
-          if (i > 0 && i <= totalPages) {
-            addButton(i, i, i === currentPage);
-          }
-        }
-
-        if (currentPage < totalPages - 2)
-          pagination.appendChild(document.createTextNode("..."));
-        if (currentPage < totalPages - 1) addButton(totalPages, totalPages);
-
-        addButton("»", currentPage + 1, false, currentPage === totalPages);
+      function renderState3(val) {
+        console.log("Render State3:", val);
       }
-
-      renderTable();
+      const proxyState = new Proxy(state, {
+        set(target, prop, value) {
+          if (target[prop] !== value) {
+            target[prop] = value;
+            if(render[prop]) render[prop](value)
+          }
+          return true;
+        },
+      });
+      proxyState.state1 = 10; // Render State1: 10
+      proxyState.state1 = 30; // Render State1: 10
+      proxyState.state2 = 20; // Render State2: 20
+      proxyState.state3 = 31500000; // Render State3: 30
     </script>
   </body>
 </html>
