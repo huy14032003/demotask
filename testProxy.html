@@ -7,16 +7,12 @@
   </head>
   <body>
     <script>
-      const state = {
-        state1: 0,
-        state2: 0,
-        state3: 0,
-      };
-      const render={
+  
+      const render = {
         state1: renderState1,
         state2: renderState2,
-        state3: renderState3
-      }
+        state3: renderState3,
+      };
       // Render function theo quy ước: renderState1, renderState2, ...
       function renderState1(val) {
         console.log("Render State1:", val);
@@ -27,19 +23,26 @@
       function renderState3(val) {
         console.log("Render State3:", val);
       }
-      const proxyState = new Proxy(state, {
-        set(target, prop, value) {
-          if (target[prop] !== value) {
-            target[prop] = value;
-            if(render[prop]) render[prop](value)
-          }
-          return true;
+      const _state = new Proxy(
+        {
+          state1: 0,
+          state2: 0,
+          state3: 0,
         },
-      });
-      proxyState.state1 = 10; // Render State1: 10
-      proxyState.state1 = 30; // Render State1: 10
-      proxyState.state2 = 20; // Render State2: 20
-      proxyState.state3 = 31500000; // Render State3: 30
+        {
+          set(target, prop, value) {
+            if (target[prop] !== value) {
+              target[prop] = value;
+              if (render[prop]) render[prop](value);
+            }
+            return true;
+          },
+        }
+      );
+      _state.state1 = 10; // Render State1: 10
+      _state.state1 = 50; // Render State1: 10
+      _state.state2 = 20; // Render State2: 20
+      _state.state3 = 31500000; // Render State3: 30
     </script>
   </body>
 </html>
