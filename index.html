@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Biểu đồ đối đầu 2 nhóm tự cuộn mượt & dừng khi hover</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+  </head>
+  <body>
+    <div id="container" style="height: 500px; width: 900px; margin: auto"></div>
+    <script>
+      const categories = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+      const dataA = [5, 6, 7, 42, 33, 67, 20, 50, 10, 15];
+      const dataB = [2, 3, 6, 87, 9, 11, 40, 70, 5, 10];
+
+      Highcharts.Templating.helpers.abs = (value) => Math.abs(value);
+
+      const chart = Highcharts.chart("container", {
+        chart: {
+          type: "bar",
+          animation: { duration: 600 },
+        },
+        title: { text: "2 nhóm đối đầu – tự trượt mượt & dừng khi hover" },
+        xAxis: [
+          { categories: categories.slice(0, 6), reversed: false },
+          { opposite: true, reversed: false, linkedTo: 0, categories: categories.slice(0, 6) },
+        ],
+        yAxis: { title: { text: null }, labels: { format: "{abs value}" } },
+        plotOptions: {
+          series: {
+            stacking: "normal",
+            borderRadius: 100,
+            animation: { duration: 600 },
+            dataLabels: {
+              enabled: true,
+              formatter() {
+                return Math.abs(this.y);
+              },
+              style: { fontWeight: "bold", color: "black" },
+            },
+          },
+        },
+        series: [
+          { name: "Nhóm 1", data: dataA.slice(0, 6).map((v) => -v), color: "#2b908f" },
+          { name: "Nhóm 2", data: dataB.slice(0, 6), color: "#90ee7e" },
+        ],
+      });
+
+      // --- Auto scroll setup ---
+      let start = 0;
+      let scrollInterval;
+
+      function scrollChart() {
+        start = (start + 1) % (categories.length - 5);
+        const cats = categories.slice(start, start + 6);
+        chart.xAxis[0].setCategories(cats, false);
+        chart.xAxis[1].setCategories(cats, false);
+
+        const newDataA = dataA.slice(start, start + 6).map((v) => -v);
+        const newDataB = dataB.slice(start, start + 6);
+        chart.series[0].setData(newDataA, false, { duration: 600 });
+        chart.series[1].setData(newDataB, true, { duration: 600 });
+      }
+
+      function startScroll() {
+        scrollInterval = setInterval(scrollChart, 2000);
+      }
+
+      function stopScroll() {
+        clearInterval(scrollInterval);
+      }
+
+      // Bắt đầu cuộn
+      startScroll();
+
+      // --- Dừng khi hover, chạy lại khi rời ---
+      chart.container.addEventListener("mouseenter", stopScroll);
+      chart.container.addEventListener("mouseleave", startScroll);
+    </script>
+  </body>
+</html>
